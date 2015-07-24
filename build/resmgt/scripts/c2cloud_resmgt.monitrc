@@ -1,0 +1,3 @@
+check process c2cloud_resmgt with pidfile /var/run/c2cloud_resmgt/c2cloud_resmgt.pid
+   start program "/root/c2cloud/c2cloud_resmgt_ctl start"
+   stop  program "/root/c2cloud/c2cloud_resmgt_ctl stop"

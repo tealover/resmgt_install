@@ -42,6 +42,11 @@ function pre_install() {
     add_hostname
 }
 
+function install_monit() {
+   yum install -y monit
+   systemctl enable monit
+}
+
 function modify_configfile() {
     sed -i "s#^$1=.*#$1=$2#" $c2_config_file
 }
@@ -90,15 +95,20 @@ function init_mysql() {
 # Modify openstack configurations
 function post_install() {
     echo "finished to install c2cloud resource mananger platform..."
+    cp ./resmgt/scripts/c2cloud_resmgt.monitrc /etc/monit.d/
+    monit reload
+    monit
+   
     echo "start mysqld server..."
     systemctl enable mysqld
     service mysqld start
     
-    sh $TOMCAT_HOME/bin/startup.sh
+    sh ./c2cloud_resmgt_ctl start
     
 }
 
 pre_install
+install_monit
 install_java
 install_mysql
 install_tomcat

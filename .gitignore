@@ -57,5 +57,7 @@ iso
 centos7
 *.iso
 *.rpm
+*.war
+*.gz
 build/sinopem/sinoPEM.war
 build/sinopem/sinopem.sql

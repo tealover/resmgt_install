@@ -1,0 +1,29 @@
+#!/bin/sh
+set -e;
+set -u;
+
+export TOMCAT_HOME=/opt/apache-tomcat-8.0.15
+export job=c2cloud_resmgt
+export run_dir=/var/run/$job
+
+case $1 in
+   
+    start)
+      echo "about to start up c2cloud resource managemnt platform"
+      sh $TOMCAT_HOME/bin/startup.sh
+      if [ ! -d $run_dir ]; then
+         mkdir -p $run_dir
+      fi
+      echo `ps -ef|grep java |grep apache-tomcat|grep -v tail |grep -v grep |awk '{print $2}'` > $run_dir/$job.pid
+      ;;
+    stop)
+      echo "about to shut down c2cloud resource managemnt platform"
+      sh $TOMCAT_HOME/bin/shutdown.sh
+      kill -9 `cat $run_dir/$job.pid`
+      ;;
+    *)
+      echo "Usage: c2cloud_resmgt_ctl (start|stop)"
+      ;;
+
+esac
+exit 0
