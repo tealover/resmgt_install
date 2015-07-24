@@ -1,25 +1,32 @@
 #!/bin/bash
-MYSQL_HOSTNAME=172.16.71.248
+#************************************************************************************
+#  自定义参数配置
+#  all right reserved by china creator
+#***********************************************************************************
+
+MYSQL_HOSTNAME=127.0.0.1
 MYSQL_PORT=3306
 MYSQL_DATABASE=c2cloud-res
 MYSQL_USERNAME=c2cloud_res
 MYSQL_PASSWORD="90io()IO"
-
-OPENSTACK_ENDPOINT=http://172.16.71.205:5000/v2.0
-OPENSTACK_VNC=http://172.16.71.205:6080
+OPENSTACK_HOST=172.16.71.205
 VCENTER_ADDRESS=172.16.71.201
 VCENTER_USERNAME=root
 VCENTER_PASSWORD=vmware
 
-export CATALINA_HOME=/opt/apache-tomcat-8.0.15
+#****************************************************************************************************
+OPENSTACK_ENDPOINT=http://$OPENSTACK_HOST:5000/v2.0
+OPENSTACK_VNC=http://$OPENSTACK_HOST:6080
+
+export TOMCAT_HOME=/opt/apache-tomcat-8.0.15
+resmgt_install_dir=$TOMCAT_HOME/webapps/ROOT
+c2_config_file="$resmgt_install_dir/WEB-INF/classes/c2-config.properties"
+xmlfile="$resmgt_install_dir/WEB-INF/c2/conf/datasource.xml"
 
 dt=`date '+%Y%m%d-%H%M%S'`
 logfile="install_$dt.log"
 
-c2_config_file="/opt/apache-tomcat-8.0.15/webapps/c2cloud-res/WEB-INF/classes/c2-config.properties"
-xmlfile="/opt/apache-tomcat-8.0.15/webapps/c2cloud-res/WEB-INF/c2/conf/datasource.xml"
 url="jdbc:mysql:\\/\\/"$MYSQL_HOSTNAME":"$MYSQL_PORT"\\/"$MYSQL_DATABASE"?useUnicode=true\&amp;characterEncoding=UTF-8\&amp;zeroDateTimeBehavior=convertToNull"
-
 
 
 function add_hostname() {
@@ -63,7 +70,7 @@ function install_java() {
 }
 
 function install_resmgt() {
-    unzip ./resmgt/c2-cloud-resource-console-2.1.0.war -d /opt/apache-tomcat-8.0.15/webapps/c2cloud-res
+    unzip ./resmgt/c2-cloud-resource-console-2.1.0.war -d $resmgt_install_dir 
     modify_configfile "c2.cloud.res.openstack.identity.endpoint" $OPENSTACK_ENDPOINT
     modify_configfile "c2.cloud.res.openstack.identity.vnc" $OPENSTACK_VNC
     modify_configfile "c2.cloud.res.vmware.vim25.vCenterAddress" $VCENTER_ADDRESS
@@ -87,7 +94,7 @@ function post_install() {
     systemctl enable mysqld
     service mysqld start
     
-    sh $CATALINA_HOME/bin/startup.sh
+    sh $TOMCAT_HOME/bin/startup.sh
     
 }
 
