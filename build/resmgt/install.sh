@@ -63,7 +63,7 @@ function install_java() {
 }
 
 function install_resmgt() {
-    unzip ./resmgt/c2-cloud-resource-console-2.1.0-SNAPSHOT.war -d /opt/apache-tomcat-8.0.15/webapps/c2cloud-res
+    unzip ./resmgt/c2-cloud-resource-console-2.1.0.war -d /opt/apache-tomcat-8.0.15/webapps/c2cloud-res
     modify_configfile "c2.cloud.res.openstack.identity.endpoint" $OPENSTACK_ENDPOINT
     modify_configfile "c2.cloud.res.openstack.identity.vnc" $OPENSTACK_VNC
     modify_configfile "c2.cloud.res.vmware.vim25.vCenterAddress" $VCENTER_ADDRESS
