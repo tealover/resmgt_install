@@ -96,14 +96,13 @@ function init_mysql() {
 function post_install() {
     echo "finished to install c2cloud resource mananger platform..."
     cp ./resmgt/scripts/c2cloud_resmgt.monitrc /etc/monit.d/
-    monit reload
-    monit
    
     echo "start mysqld server..."
     systemctl enable mysqld
     service mysqld start
     
     sh ./c2cloud_resmgt_ctl start
+    monit
     
 }
 

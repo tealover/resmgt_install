@@ -1,5 +1,5 @@
 一键式部署生命周期管理平台
-resmgt构建版本:c2-cloud-resource-console-2.1.0-build20150724.war
+resmgt构建版本:c2-cloud-resource-console-2.1.0-build20150727.war
 ISO所需packages列表:
 acl-2.2.51-12.el7.x86_64.rpm
 aic94xx-firmware-30-6.el7.noarch.rpm
